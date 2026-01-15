@@ -1,53 +1,67 @@
-# bilgisayarAglari
+# 🌐 QoS Odaklı Çok Amaçlı Ağ Rotalama Optimizasyonu
 
-BSM307 / 317 dönem projesi için üç farklı rota bulma algoritmasının (Genetik Algoritma, Karınca Kolonisi Optimizasyonu, Q-Learning) aynı ağ topolojisi üzerinde kıyaslanması ve raporlanması bu depo üzerinden gerçekleştiriliyor. `ag.py` dosyası CSV’deki düğüm/kenar verilerini okuyup `networkx` grafını oluşturur; diğer dosyalar algoritmaları ve otomasyon araçlarını içerir.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue) ![Library](https://img.shields.io/badge/Library-NetworkX-green) ![Status](https://img.shields.io/badge/Status-Completed-success)
 
-## Gerekli Araçlar
-- Python 3.10+ (standart kütüphaneler + `pandas`, `networkx`, `matplotlib`)
-- Proje kökünde sağlanan `BSM307_317_Guz2025_TermProject_*.csv` dosyaları
+Bu proje, karmaşık ağ topolojileri üzerinde **Hizmet Kalitesi (QoS)** parametrelerini (Gecikme, Güvenilirlik, Bant Genişliği) optimize etmek amacıyla geliştirilmiş kapsamlı bir simülasyon ve analiz çerçevesidir. 
 
-Virtualenv ihtiyacı yoksa doğrudan sistem Python’ı ile de çalıştırabilirsiniz. Eksik paket olursa:
+Proje, gerçek dünya ağ problemlerini simüle etmek için aynı topoloji üzerinde üç farklı yapay zeka yaklaşımını kıyaslar:
 
-```bash
-python3 -m pip install pandas networkx matplotlib
-```
+1.  **🧬 Genetik Algoritma (GA):** Doğal seleksiyon ve mutasyon prensiplerine dayalı evrimsel rota optimizasyonu.
+2.  **🐜 Karınca Kolonisi Optimizasyonu (ACO):** Sürü zekası (Swarm Intelligence) ve feromon izi mantığıyla en kısa yol analizi.
+3.  **🤖 Q-Learning (RL):** Pekiştirmeli öğrenme (Reinforcement Learning) kullanarak dinamik ortamda ajan tabanlı rota keşfi.
 
-## Deney Düzeneği (deney_duzenegi.py)
-Toplu deneyleri otomatikleştirmek için `deney_duzenegi.py` betiğini kullanın. Betik `BSM307_317_Guz2025_TermProject_DemandData.csv` içindeki satırları `(S,D,B)` kombinasyonlarına çevirir, her kombinasyon için seçtiğiniz algoritmaları çalıştırır ve sonuçları zaman damgalı bir rapora yazar.
+---
 
-### Örnek Çalıştırma
-```bash
+## 📂 Proje İçeriği ve Dosya Yapısı
+
+* `ag.py`: CSV verilerini okuyarak düğüm (node) ve kenar (edge) yapılarıyla `networkx` grafını oluşturur.
+* `deney_duzenegi.py`: Otomasyonun merkezidir. Algoritmaları belirli parametrelerle yarıştırır ve raporlar.
+* `BSM307_317_*.csv`: Ağ topolojisi ve talep (demand) verilerini içeren veri setleri.
+
+---
+
+## 🚀 Kurulum ve Gereksinimler
+
+Proje **Python 3.10+** ile uyumludur. Gerekli bağımlılıkları yüklemek için aşağıdaki komutu kullanabilirsiniz:
+
+bash
+"python3 -m pip install pandas networkx matplotlib"
+
+hızlı başlangıç örnek tablosu
 python3 deney_duzenegi.py \
   --demands 20 \
   --repeats 5 \
   --algorithms ga aco qlearning \
-  --weights 0.4 0.4 0.2
-```
+  --weights 0.4 0.4 0.2 \
+  --seed 42
 
-Komut parametreleri:
-- `--demands` / `--demand-offset`: Demand CSV’den kaç satır ve hangi başlangıç indexinden okunacağını belirler.
-- `--repeats`: Her algoritma için kaç kez tekrar yapılacağı (ortalama, std, en iyi/kötü için minimum 5 önerilir).
-- `--algorithms`: `ga`, `aco`, `qlearning` anahtarlarından dilediğiniz alt küme.
-- `--weights`: Gecikme / Güvenilirlik / Kaynak kullanım ağırlıkları (betik normalize eder).
-- Algoritma özel parametreleri (`--ga-pop`, `--aco-ants`, `--ql-episodes` vb.) ayrıntılı ince ayar sağlar.
-- `--output`: Varsayılan isim yerine özel rapor dosyası tanımlamak için.
+Parametre,Açıklama,Örnek
+--demands,CSV dosyasından işlenecek toplam talep (rota isteği) sayısı.,20
+--repeats,İstatistiksel doğruluk için her algoritmanın kaç kez çalıştırılacağı.,5
+--algorithms,Kıyaslamaya dahil edilecek algoritmalar.,ga aco qlearning
+--weights,"QoS öncelik ağırlıkları (Sırasıyla: Gecikme, Güvenilirlik, Maliyet).",0.4 0.4 0.2
+--seed,Tekrarlanabilirlik: Sabit bir çekirdek değer vererek sonuçların her çalışmada aynı olmasını sağlar.,42
+--output,Sonuç raporu için özel dosya adı tanımlar.,sonuc.txt
 
-Betik çıktısı `deney_detay_YYYYMMDD_HHMMSS.txt` formatında rapor üretir; başarılı ve başarısız her tekrarın metriklerini, süreleri ve gerekçelerini bu dosyada bulabilirsiniz.
+📊 Raporlama ve Sonuçlar
+Simülasyon tamamlandığında, deney_detay_YYYYMMDD_HHMMSS.txt formatında zaman damgalı bir teknik rapor üretilir.
 
-## Seed (Tekrarlanabilirlik) Bilgisi
-Tüm algoritmalar Python’un `random` modülünü kullanır. Aynı seed’le koşulduğunda betik aynı sırada aynı rastgele kararları vereceğinden sonuçlar tekrarlanabilir olur.
+Bu raporda şunlar bulunur:
 
-```bash
-python3 deney_duzenegi.py --seed 42 --demands 20 --repeats 5
-```
+Başarı Metrikleri: Algoritmaların geçerli bir rota bulma başarısı (Success Rate).
 
-Seed verilmezse sistem saatine göre farklı sonuçlar üretilir. Q-Learning tarafında ek bir numpy rastgeleliği olmadığı için tek `--seed` parametresi yeterlidir; farklı seed değerleri algoritmaların iç çeşitliliğini değiştirir.
+Performans: Ortalama hesaplama süresi (ms) ve bellek kullanımı.
 
-## Raporu Okuma
-Rapor dosyasında her deney için aşağıdaki blok bulunur:
-- Başlangıç / hedef düğümler ve talep edilen bant genişliği
-- Algoritma bazında başarı sayısı, ortalama süre, ortalama maliyet, standart sapma, en iyi/kötü sonuçlar
-- Geçerli yolların gecikme (ms), güvenilirlik, darboğaz bant genişliği ve maliyet bilgileri
-- Talebi karşılamayan veya çökmüş tekrarların gerekçeleri
+Yol Kalitesi: Bulunan rotaların toplam gecikmesi, darboğaz bant genişliği ve güvenilirlik skorları.
 
-Son bölümde her algoritmanın kaç kombinasyonda en az bir geçerli çözüm üretebildiği özetlenir. Bu raporu doğrudan proje teslimine ekleyebilir veya Excel’e aktararak grafik oluşturabilirsiniz.
+Hata Analizi: Başarısız denemelerin (örn. yetersiz bant genişliği, döngü oluşumu) teknik nedenleri.
+
+⚖️ Tekrarlanabilirlik (Seed Mantığı)
+Bilimsel kıyaslamanın tutarlılığı için tüm algoritmalar merkezi bir rastgelelik (Seed) mekanizması kullanır.
+
+--seed parametresi verildiğinde, algoritmaların (özellikle Q-Learning keşif süreci ve GA mutasyonları) kararları deterministik hale gelir.
+
+Bu sayede farklı bilgisayarlarda aynı sonuçlar elde edilebilir ve algoritmalar adil bir şekilde kıyaslanabilir.
+
+Geliştirici
+Eyüphan Altuntaş - Bilgisayar Teknolojileri ve Bilişim Sistemleri öğrencisi.
