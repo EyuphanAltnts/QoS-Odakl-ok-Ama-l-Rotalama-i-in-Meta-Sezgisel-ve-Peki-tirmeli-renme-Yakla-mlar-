@@ -27,7 +27,7 @@ Proje **Python 3.10+** ile uyumludur. Gerekli bağımlılıkları yüklemek içi
 bash
 "python3 -m pip install pandas networkx matplotlib"
 
-hızlı başlangıç örnek tablosu
+hızlı başlangıç örnek tablosu:
 python3 deney_duzenegi.py \
   --demands 20 \
   --repeats 5 \
@@ -36,12 +36,12 @@ python3 deney_duzenegi.py \
   --seed 42
 
 Parametre,Açıklama,Örnek
---demands,CSV dosyasından işlenecek toplam talep (rota isteği) sayısı.,20
---repeats,İstatistiksel doğruluk için her algoritmanın kaç kez çalıştırılacağı.,5
---algorithms,Kıyaslamaya dahil edilecek algoritmalar.,ga aco qlearning
---weights,"QoS öncelik ağırlıkları (Sırasıyla: Gecikme, Güvenilirlik, Maliyet).",0.4 0.4 0.2
---seed,Tekrarlanabilirlik: Sabit bir çekirdek değer vererek sonuçların her çalışmada aynı olmasını sağlar.,42
---output,Sonuç raporu için özel dosya adı tanımlar.,sonuc.txt
+--demands:CSV dosyasından işlenecek toplam talep (rota isteği) sayısı.,20
+--repeats:İstatistiksel doğruluk için her algoritmanın kaç kez çalıştırılacağı.,5
+--algorithms:Kıyaslamaya dahil edilecek algoritmalar.,ga aco qlearning
+--weights:"QoS öncelik ağırlıkları (Sırasıyla: Gecikme, Güvenilirlik, Maliyet).",0.4 0.4 0.2
+--seed(Tekrarlanabilirlik): Sabit bir çekirdek değer vererek sonuçların her çalışmada aynı olmasını sağlar.,42
+--output:Sonuç raporu için özel dosya adı tanımlar.,sonuc.txt
 
 📊 Raporlama ve Sonuçlar
 Simülasyon tamamlandığında, deney_detay_YYYYMMDD_HHMMSS.txt formatında zaman damgalı bir teknik rapor üretilir.
@@ -63,5 +63,5 @@ Bilimsel kıyaslamanın tutarlılığı için tüm algoritmalar merkezi bir rast
 
 Bu sayede farklı bilgisayarlarda aynı sonuçlar elde edilebilir ve algoritmalar adil bir şekilde kıyaslanabilir.
 
-Geliştirici
+Geliştirici:
 Eyüphan Altuntaş - Bilgisayar Teknolojileri ve Bilişim Sistemleri öğrencisi.
